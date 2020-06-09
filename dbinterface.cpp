@@ -45,5 +45,20 @@ int DbInterface::addData(QMap<QString, QVariant> data)
 
 QList<QMap<QString, QVariant> > DbInterface::getData()
 {
-
+    QSqlQuery query;
+    QList<QMap<QString,QVariant>> data;
+    query.prepare("SELECT ID, Status, Item FROM Shopping");
+    if(! query.exec()) {
+        qDebug() << "Error selecting data from db";
+        return data;
+    }
+    while(query.next()) {
+        QMap<QString,QVariant> tmp;
+        tmp.insert("ID", query.value("ID"));
+        tmp.insert("Status", query.value("Status"));
+        tmp.insert("Item", query.value("Item"));
+        data.append(tmp);
+    }
+    emit getData(data);
+    return data;
 }

@@ -48,8 +48,33 @@ QList<QMap<QString, QVariant> > DbInterface::getData()
     QSqlQuery query;
     QList<QMap<QString,QVariant>> data;
     query.prepare("SELECT ID, Status, Item FROM Shopping");
+
+    data = createList(query);
+
+    emit getData(data);
+    return data;
+}
+
+QList<QMap<QString, QVariant> > DbInterface::getData(bool status)
+{
+    QSqlQuery query;
+    QList<QMap<QString,QVariant>> data;
+    query.prepare("SELECT ID, Status, Item FROM Shopping WHERE Status=?");
+    query.bindValue(0, status);
+
+    data = createList(query);
+
+    emit getData(data);
+    return data;
+}
+
+QList<QMap<QString, QVariant> > DbInterface::createList(QSqlQuery query)
+{
+    QList<QMap<QString,QVariant>> data;
+
     if(! query.exec()) {
         qDebug() << "Error selecting data from db";
+        qDebug() << query.lastError().databaseText();
         return data;
     }
     while(query.next()) {
@@ -59,6 +84,5 @@ QList<QMap<QString, QVariant> > DbInterface::getData()
         tmp.insert("Item", query.value("Item"));
         data.append(tmp);
     }
-    emit getData(data);
     return data;
 }

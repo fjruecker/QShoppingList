@@ -28,3 +28,24 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::on_btnAdd_clicked()
+{
+    QMap<QString, QVariant> data;
+    data.insert("Item", ui->editItem->text());
+    data.insert("Status", ui->checkFinished->isChecked());
+
+    mDbInterface.addData(data);
+    clearUi();
+}
+
+void MainWindow::on_radioShowFinished_toggled(bool checked)
+{
+    mDbInterface.getData(checked);
+}
+
+void MainWindow::clearUi()
+{
+    ui->editItem->setText("");
+    ui->checkFinished->setCheckState(Qt::Unchecked);
+}

@@ -18,9 +18,11 @@ signals:
 public slots:
     int addData(QMap<QString,QVariant> data);
     QList<QMap<QString,QVariant>> getData();
+    QList<QMap<QString,QVariant>> getData(bool status);
 
 private:
     QSqlDatabase mDb;
+    QList<QMap<QString, QVariant> > createList(QSqlQuery query);
 };
 
 #endif // DBINTERFACE_H

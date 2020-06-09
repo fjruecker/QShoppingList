@@ -17,8 +17,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_btnAdd_clicked();
+    void on_radioShowFinished_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
     DbInterface mDbInterface;
+
+    void clearUi();
 };
 #endif // MAINWINDOW_H

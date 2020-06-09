@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
         }
         db = path + QDir::separator() + "database.db";
     }
+
+    mDbInterface.initDatabase(db);
 }
 
 MainWindow::~MainWindow()
